@@ -239,7 +239,7 @@ smooth_train_loss = 0
 total_training_time = 0
 step = 0
 data_iter = iter(train_loader)
-warmup_steps = 5  # skip first N steps for timing (compilation overhead)
+timing_skip_steps = 5  # skip first N steps for timing (compilation overhead)
 
 while True:
     torch.cuda.synchronize()
@@ -287,7 +287,7 @@ while True:
     t1 = time.time()
     dt = t1 - t0
 
-    if step > warmup_steps:
+    if step > timing_skip_steps:
         total_training_time += dt
 
     # Logging
@@ -307,7 +307,7 @@ while True:
 
     step += 1
 
-    if step > warmup_steps and total_training_time >= TIME_BUDGET:
+    if step > timing_skip_steps and total_training_time >= TIME_BUDGET:
         break
 
 print()  # newline after \r training log

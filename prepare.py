@@ -33,6 +33,7 @@ EVAL_BATCH_SIZE = 64       # batch size for evaluation
 # Image normalization (CLIP/OpenAI standard)
 IMAGE_MEAN = (0.48145466, 0.4578275, 0.40821073)
 IMAGE_STD = (0.26862954, 0.26130258, 0.27577711)
+TRAIN_CROP_SCALE = (0.8, 1.0)  # scale range for RandomResizedCrop during training
 
 # ---------------------------------------------------------------------------
 # Configuration
@@ -123,7 +124,7 @@ def get_image_transform(image_size=IMAGE_SIZE, is_train=True):
     if is_train:
         return transforms.Compose([
             transforms.Resize(image_size, interpolation=transforms.InterpolationMode.BICUBIC),
-            transforms.RandomResizedCrop(image_size, scale=(0.8, 1.0),
+            transforms.RandomResizedCrop(image_size, scale=TRAIN_CROP_SCALE,
                                          interpolation=transforms.InterpolationMode.BICUBIC),
             transforms.RandomHorizontalFlip(),
             transforms.ToTensor(),
